@@ -1,17 +1,19 @@
-# Notes for Sitepoint's PHP and MySQL — Novice to Ninja 5th Ed
+# Notes for Sitepoint's PHP and MySQL: Novice to Ninja 5th Edition
 
 ## SQL
-**Case sensitivity:** Only database and table names are case sensitive. Capitalizing SQL commands is just a convention
+**Case sensitivity:** Only database and table names are case sensitive. Capitalizing SQL commands is just a human convention.
 
-**Strings:** The single and double quote delimiters are used to surround most data values in SQL. Of course text strings require these, but so too do date values, e.g.: "YYYY-MM-DD". 
+**Strings:** The single and double quote delimiters are used to surround most data values in SQL. Of course text strings require these, but so too do date values, e.g.: `"YYYY-MM-DD"`. 
 
-The basic wildcard matching character is the percent sign(%). Using SQL's `WHERE` clause
-with its' `LIKE` operator, we might do:
+The basic wildcard matching character is the percent sign (%). Using SQL's `WHERE` *clause*
+with its' `LIKE` *operator*, we might do:
 ```sql
 // The percent sign is case *insensitive*
 SELECT * FROM joke WHERE joketext LIKE "%chicken%"; # CHICKEN,ChicKEN, and chicken all match
 ```
 
+* What is a clause? What is an operator? [1]
+  
 See [here](https://dev.mysql.com/doc/refman/8.0/en/string-literals.html) for much more.
 
 ### Comments in SQL
@@ -302,3 +304,4 @@ A PHP script that responds to a browser request by selecting one of several PHP 
 * To get a nice formatted presentation of a value use [`var_dump()`](https://secure.php.net/manual/en/function.var-dump.php)
 * To get a human-readable representation of a type for debugging, use the [`gettype()`](https://secure.php.net/manual/en/function.gettype.php) function
 
+[1]: https://en.wikipedia.org/wiki/SQL_syntax#Language_elements
