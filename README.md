@@ -12,7 +12,7 @@ with its' `LIKE` *operator*, we might do:
 SELECT * FROM joke WHERE joketext LIKE "%chicken%"; # CHICKEN,ChicKEN, and chicken all match
 ```
 
-* What is a clause? What is an operator? [1]
+* <a href="https://en.wikipedia.org/wiki/SQL_syntax#Language_elements" target="_blank">What is a clause? What is an operator?</a>
   
 See [here](https://dev.mysql.com/doc/refman/8.0/en/string-literals.html) for much more.
 
