@@ -222,15 +222,14 @@ foreach (array as $item)
     // process each $item
 }
 ```
-`foreach` has an alternative syntax which lends itself to interspersing html within. To begin, this is the new syntax::
+`foreach` has an alternative syntax which lends itself to interspersing html within. To begin, this is the new syntax in pure php:
 ```php
 foreach (array as $item):
     // process each $item
 endforeach
 ```
-
-Mixing PHP and html within a template:
-```
+Within an HTML template, intersperse with PHP using the new syntax:
+```html
 <?php foreach (array as $item): ?>
     <!-- any html code you want -->
     <?php echo "<li>$item</li>"; ?>
@@ -238,7 +237,12 @@ Mixing PHP and html within a template:
 ```
 
 ## PHP and HTML
-
+Because `echo` is used so often, there is a shorthand:
+```html
+<?php echo 'Hello'; ?>
+<!-- OR -->
+<?= 'Goodbye'; ?>
+```
 ### URL Query Strings
 ---
 
@@ -263,8 +267,7 @@ To send multiple variables using query strings:
 `<p><a href="firstlast.php?firstname=Kevin&lastname=Yank">Hi,  
  I’m Kevin Yank!</a></p>`
 
-> See this [StackOverflow post](https://stackoverflow.com/questions/724526/how-to-pass-multiple-parameters-in-a-querystring#724530) for much more 
-This time, our link passes two variables: `firstname` and `lastname`. The variables are separated in the query string by an ***ampersand*** . You can pass even more variables by separating each name=value pair from the next with additional ampersands.
+> This time, our link passes two variables: `firstname` and `lastname`. The variables are separated in the query string by an ***ampersand*** . You can pass even more variables by separating each name=value pair from the next with additional ampersands. -- See this [StackOverflow post](https://stackoverflow.com/questions/724526/how-to-pass-multiple-parameters-in-a-querystring#724530) for much more 
 
 ### A note on malicious code - XSS or cross-site scripting:
 ----------------
@@ -298,5 +301,4 @@ A PHP script that responds to a browser request by selecting one of several PHP 
 ---
 * To get a nice formatted presentation of a value use [`var_dump()`](https://secure.php.net/manual/en/function.var-dump.php)
 * To get a human-readable representation of a type for debugging, use the [`gettype()`](https://secure.php.net/manual/en/function.gettype.php) function
-* Inside html, `<?= $somevalue; ?>` is a shortcut for `<?php echo $somevalue; ?>`
 
