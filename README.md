@@ -3,7 +3,7 @@
 ## SQL
 **Case sensitivity:** Only database and table names are case sensitive. Capitalizing SQL commands is just a convention
 
-**Strings:** The single and double quote delimeters are used to surround most data values in SQL. Of course text strings require these, but so too do date values, e.g.: "YYYY-MM-DD". 
+**Strings:** The single and double quote delimiters are used to surround most data values in SQL. Of course text strings require these, but so too do date values, e.g.: "YYYY-MM-DD". 
 
 The basic wildcard matching character is the percent sign(%). Using SQL's `WHERE` clause
 with its' `LIKE` operator, we might do:
@@ -35,8 +35,9 @@ WHERE id = 2
 ```
 You can also delete data, but not with update!
 ```sql
-DELETE FROM joke WHERE condition    // Be *very* careful to provide a where clause. 
-                                    // Without one, it will delete all records in the table
+// Be *very* careful to provide a WHERE clause. 
+// Without one, it will delete all records in the table
+DELETE FROM joke WHERE condition
 ```
 
 ## Using SQL with PHP
@@ -49,12 +50,12 @@ $sql = 'CREATE TABLE joke (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         joketext TEXT,
         jokedate DATE NOT NULL,
-    ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_gen_ci';
+    ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
 
 $pdo->exec($sql);
 ```
 
-> DEFAULT CHARACTER SET utf8 tells MySQL that you’ll be storing UTF-8 encoded text in this table. UTF-8 is the most common encoding used for web content, so you should employ it in all your database tables that you intend to use on the Web. -- ch2 Introducing MySQL p39
+> [DEFAULT CHARACTER SET utf8mb4](https://dev.mysql.com/doc/refman/8.0/en/charset-unicode-sets.html) tells MySQL that you’ll be using up to four bytes per character to encode text in this table. UTF-8 is the most common encoding used for web content, so you should employ it in all your database tables that you intend to use on the Web. -- ch2 Introducing MySQL p39
 
 The COLLATE clause defines the rules for sort order. This can be overridden, but setting it here just makes it the default.
 
@@ -69,7 +70,7 @@ SELECT joketext FROM joke;
 ```
 
 ```php
-// Preparing an sql string for execution. The semi-colon terminates the PHP statement and *not* the sql query
+// Preparing an sql string for execution. Here, the semi-colon terminates the PHP statement and *not* the sql query
 $mySQLStatement = 'SELECT joketext FROM joke';
 ```
 
@@ -86,13 +87,14 @@ These days, instead of using `mysqli_*` methods, **PDO** is the new recommended 
 
 
 ```sql
-$pdo = new PDO('mysql:host=localhost;dbname=ijdb', 'ijdbuser', 'mypassword');
+$pdo = new PDO('mysql:host=localhost;dbname=ijdb', 'ijdbuser', 'mypassword', 'utf8mb4');
 ```
     
 2. Now that We now have a PDO object called `$pdo`,  we configure the connection. 
 ```php
-    $pdo->setAtribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec('SET NAMES "utf8"');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // php versions prior to 5.3.6 ignored the charset argument on instantiation, and so required the following ...
+    $pdo->exec('SET NAMES "utf8mb4"');
 ```
 4. Ready to rock and roll. PDO's *exec* method runs any string of SQL, e.g.:
 
@@ -101,7 +103,8 @@ $affectedRows = $pdo->exec('SELECT * FROM joke');
 // $affectedRows contains the number of rows affected
 ```
 
-ADDITIONAL READING
+**Additional Reading**
+
 ---
 
 * [The Only Proper PDO Tutorial](https://phpdelusions.net/pdo#dsn)
@@ -122,13 +125,13 @@ to access, we use **arrow notation**; for instance:"*
 
 ```php
 $myObject = new SomeClass();   // create an object
-// The php -> != to javascript's =>, aka fat arrow notation
+// The php -> != to JavaScript's =>, aka fat arrow notation
 $myObject->someProperty = 123; // set a property's value
 echo $myObject->someProperty;  // get a property's value
 $myObject->someMethod();
 ```
 
-### Variables
+### Variables in PHP
 ---
 all variable names in PHP begin with a dollar sign
 
@@ -164,7 +167,7 @@ The simplest (preferred) way to create an ***array*** in PHP is to use the built
 
 `$myarray = array('one', 2, '3');`
 
-You could also just create an arry with empty brackets:
+You could also just create an array with empty brackets:
 
 `$anotherArray[] = 'the answer';`
 
@@ -245,6 +248,7 @@ PHP can use query strings to share data
 <!-- filename: name.html -->
 <p><a href="name.php?name=Alex">Hi, I’m Alex!</a></p>`
 ```
+Note the basic format for a query string includes a question mark separator followed by name=value pairs.
 
 ```php
 // filename: name.php
@@ -256,19 +260,20 @@ PHP can use query strings to share data
 
 To send multiple variables using query strings:
 
-`<p><a href="firstlast.php?firstname=Kevin&amp;lastname=Yank">Hi,  
+`<p><a href="firstlast.php?firstname=Kevin&lastname=Yank">Hi,  
  I’m Kevin Yank!</a></p>`
- 
-This time, our link passes two variables: `firstname` and `lastname`. The variables are separated in the query string by an ***ampersand*** ( & , which must be written as `&amp;` in HTML). You can pass even more variables by separating each name=value pair from the next with an ampersand.
+
+> See this [StackOverflow post](https://stackoverflow.com/questions/724526/how-to-pass-multiple-parameters-in-a-querystring#724530) for much more 
+This time, our link passes two variables: `firstname` and `lastname`. The variables are separated in the query string by an ***ampersand*** . You can pass even more variables by separating each name=value pair from the next with additional ampersands.
 
 ### A note on malicious code - XSS or cross-site scripting:
 ----------------
 Malicious code can try to take advantage of code the browser intrinsically trusts; query strings in this case. Attackers can manipulate the string to include any html code including javascript, as part of the query string. This is a problem if the server has trust in the query string.
 
-Because of this problem, PHP provides the `htmlspecialchars()` function to *sanitize* query strings so that any code present inside a query string, is rendered as text and not evaluated as code. 
+Because of this problem, PHP provides the [`htmlspecialchars()`](http://php.net/manual/en/function.htmlspecialchars.php) function to *sanitize* query strings so that any code present inside a query string, is rendered as text and not evaluated as code. 
 
 ```php
-$sanitized_string = htmlspecialchars($query_string, ENT_QUOTES, 'utf8');
+$sanitized_string = htmlspecialchars($query_string, ENT_QUOTES, 'utf8mb4');
 ```
 
 ## Logical operators
@@ -291,8 +296,7 @@ A PHP script that responds to a browser request by selecting one of several PHP 
 
 ### Miscellany
 ---
-* To get a nice formatted presentation of a value use `var_dump()`
-* To get a human-readable representation of a type for debugging, use the `gettype()` function
-* If you want to check for a certain type, don't use `gettype()`, but use the `is_type` functions
-* Inside html, `<?= $somevalue; ?>` is the sames as `<?php echo $somevalue; ?>`
+* To get a nice formatted presentation of a value use [`var_dump()`](https://secure.php.net/manual/en/function.var-dump.php)
+* To get a human-readable representation of a type for debugging, use the [`gettype()`](https://secure.php.net/manual/en/function.gettype.php) function
+* Inside html, `<?= $somevalue; ?>` is a shortcut for `<?php echo $somevalue; ?>`
 
