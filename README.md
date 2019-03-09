@@ -65,6 +65,14 @@ $pdo->exec($sql);
 
 The COLLATE clause defines the rules for sort order. This can be overridden, but setting it here just makes it the default.
 
+The `exec()` method does have a return value which is useful for SQL's `DELETE`, `INSERT`, and `UPDATE` commands. The value returned is the number of rows affected, if successful of course.
+
+### Handling `SELECT` **_Result Sets_**
+
+In SELECT queries, we care about much more than the number of rows affected, we want everything that our query requested. This could be millions of records with many fields etc.
+
+**Result Sets**, aka **_PDOStatement objects_** are returned via the `PDO->query()` method.
+
 ### **Native SQL code (in the shell or phpMyAdmin) vs SQL code sent via PHP**
 
 ---
@@ -89,7 +97,7 @@ A PHP repl: https://repl.it/
 
 ---
 
-These days, instead of using `mysqli_*` methods, **PDO** is the new recommended way
+These days, instead of using `mysqli_*` methods, using the **PDO** _class_ is the new recommended way
 
 1. From the docs
    > "Connections are established by creating instances of the PDO base class. It doesn't matter which driver you want to use; you always use the PDO class name. The constructor accepts parameters for specifying the database source (known as the _DSN_, or _Data Source Name_) and optionally for the username and password (if any) ... In general, a **DSN** consists of the PDO driver name, followed by a colon, followed by the PDO driver-specific connection syntax. [more info here ...](https://php.net/manual/en/pdo.construct.php#refsect1-pdo.construct-parameters)
