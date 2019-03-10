@@ -1,6 +1,22 @@
 # Notes for Sitepoint's PHP and MySQL: Novice to Ninja 5th Edition
 
-## SQL
+The book covers aspects of not just PHP and MySQL (or SQL in general), but also how PHP specifically is used with HTML.
+
+The MySQL server is available through a number of interfaces:
+
+- the command line using `mysql`
+- through a web app such as [PHPMyAdmin](https://www.phpmyadmin.net/)
+- and naturally through several drivers provided in PHP.
+
+PHP is kind of like a preprocessor, accepting all php files from the server and emitting source files (html, css and even js) that the server can natively understand.
+
+## SQL or Structured Query Language
+
+SQL has become the generic term for a common way of thinking about and interacting with databases using a Relational model or concept. There are many \*SQLs that derive and somewhat follow some of these ideas and use many of the same commands but add more. In general, when you learn SQL, you have a good basis for using other SQL's or RDBMSs (Relational Database Management System) like:
+
+- MySQL
+- Microsoft SQL
+- PostGreSQL
 
 **Case sensitivity:** Only database and table names are case sensitive. Capitalizing SQL commands is just a human convention.
 
@@ -13,7 +29,7 @@ The basic wildcard matching character is the percent sign (%). Using SQL's `WHER
 SELECT * FROM joke WHERE joketext LIKE "%chicken%"; # CHICKEN,ChicKEN, and chicken all match
 ```
 
-- <a href="https://en.wikipedia.org/wiki/SQL_syntax#Language_elements" target="_blank">What is a clause? What is an operator?</a>
+[What is a clause? What is an operator?](https://en.wikipedia.org/wiki/SQL_syntax#Language_elements)
 
 See [here](https://dev.mysql.com/doc/refman/8.0/en/string-literals.html) for much more.
 
